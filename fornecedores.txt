@@ -1,12 +1,3 @@
-asdadadda,2345362314,5352123,dshfi
-asafapowel,2345362314,5352123,dshfi
-asafapowel,2345362314,5352123,dshfieqewe
-asafapowel,2345362314,5352123,dshfi
-buceta,2345362314,4321234,dshfi
-asafapowel,2345362314,5352123,dshfi
-asafapowel,2345362314,5352123,dshfi
-asafapowel,2345362314,5352123,dshfi
-caralho,2345362314,5352123,dshfi
-asafapowel,2345362314,5352123,dshfi
-buceta,2345362314,5352123,dshfi
+asdadadda,2345362314,5352123,lucas@email.com
+asafapowel,83756,5352123,dshfi
 oisdad,2345362314,5352123,dshfi

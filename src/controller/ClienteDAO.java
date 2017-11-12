@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Cliente;
-import view.AtualizaCliente;
+import view.GerenciaCliente;
 
 /**
  *

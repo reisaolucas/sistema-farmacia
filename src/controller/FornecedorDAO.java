@@ -93,7 +93,7 @@ public class FornecedorDAO {
    }
    
    public void gravar(ArrayList<Fornecedor> fornecedores, boolean append) throws IOException{
-       FileWriter escritor = new FileWriter(fileFornecedor,false);
+       FileWriter escritor = new FileWriter(fileFornecedor,append);
        BufferedWriter escritorBuff = new BufferedWriter(escritor);
        for(int i=0; i<fornecedores.size(); i++){ // caminha no array list
             escritorBuff.write(fornecedores.get(i).getNome()+","+

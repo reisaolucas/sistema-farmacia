@@ -34,8 +34,8 @@ public class ProdutoDAO {
    }
    
    public void read() throws FileNotFoundException, IOException{
-        File arquivo = new File("produtos.txt");
-        FileReader leitor = new FileReader(arquivo);
+        //File arquivo = new File("produtos.txt");
+        FileReader leitor = new FileReader(fileProduto);
         BufferedReader leitorBuff = new BufferedReader(leitor);
         String line;
         while((line = leitorBuff.readLine())!=null){
@@ -81,7 +81,7 @@ public class ProdutoDAO {
    }
    
    public void gravar(ArrayList<Produto> produtos, boolean append) throws IOException{
-       FileWriter escritor = new FileWriter(fileProduto, false);
+       FileWriter escritor = new FileWriter(fileProduto, append);
        BufferedWriter escritorBuff = new BufferedWriter(escritor);
        for(int i=0; i<produtos.size(); i++){ // caminha no array list
             escritorBuff.write(produtos.get(i).getNome()+","+

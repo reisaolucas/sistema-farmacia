@@ -5,42 +5,41 @@
  */
 package view;
 
-import com.sun.org.glassfish.external.probe.provider.annotations.Probe;
-import controller.ProdutoDAO;
+import controller.FornecedorDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.Fornecedor;
-import model.Produto;
 
 /**
  *
  * @author brunodepaulo
  */
-public class AtualizaProdutos extends javax.swing.JFrame {
+public class GerenciaFornecedor extends javax.swing.JFrame {
 
-    ProdutoDAO produtoDao = new ProdutoDAO();
+    FornecedorDAO fornecedorDao = new FornecedorDAO();
     /**
      * Creates new form AtualizaFornecedor
      */
-    public AtualizaProdutos() {
+    public GerenciaFornecedor() {
         initComponents();
         this.setVisible(true);
-        ArrayList<Produto> produtos = produtoDao.getProdutos();
+        
+        ArrayList<Fornecedor> fornecedores = fornecedorDao.getFornecedores();
         try {
-            produtoDao.read();
-            DefaultTableModel dtmProdutos = (DefaultTableModel) jTableProdutos.getModel();
+            fornecedorDao.read();
+            DefaultTableModel dtmFornecedores = (DefaultTableModel) jTableFornecedor.getModel();
             
             int i =0;
-            while(produtos.get(i)!=null){
-                Object[] dados = {produtos.get(i).getNome(), produtos.get(i).getCodProduto(), produtos.get(i).getTipo(), produtos.get(i).getMarca(), produtos.get(i).getFornecedor(), produtos.get(i).getPreco(), produtos.get(i).getQtd()};
-                dtmProdutos.addRow(dados);
+            while(fornecedores.get(i)!=null){
+                Object[] dados = {fornecedores.get(i).getNome(), fornecedores.get(i).getCnpj(), fornecedores.get(i).getEmail(), fornecedores.get(i).getTel()};
+                dtmFornecedores.addRow(dados);
                 i++;            
         }   
         } catch (IOException ex) {
-            Logger.getLogger(AtualizaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -54,21 +53,22 @@ public class AtualizaProdutos extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableProdutos = new javax.swing.JTable();
+        jTableFornecedor = new javax.swing.JTable();
         jButtonSalvar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Código", "Tipo", "Marca", "Fornecedor", "Preço", "Quantidade"
+                "Nome", "CNPJ", "Email", "Telefone", "Endereço"
             }
         ));
-        jScrollPane1.setViewportView(jTableProdutos);
+        jScrollPane1.setViewportView(jTableFornecedor);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -84,32 +84,37 @@ public class AtualizaProdutos extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setText("Gerenciamento de Fornecedores");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSalvar)
-                        .addGap(120, 120, 120)
-                        .addComponent(jButtonVoltar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonSalvar)
+                .addGap(48, 48, 48)
+                .addComponent(jButtonVoltar)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(0, 33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvar)
-                    .addComponent(jButtonVoltar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jButtonSalvar)))
         );
 
         pack();
@@ -117,26 +122,25 @@ public class AtualizaProdutos extends javax.swing.JFrame {
 
     private void jButtonSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSalvarMouseClicked
         int i;
-        ArrayList<Produto> produtos = new ArrayList<Produto>();
-        for(i=0;i<jTableProdutos.getModel().getRowCount(); i++){
-            if (!jTableProdutos.getModel().getValueAt(i, 0).equals("") );//verifica se a celula esta vazia
+        
+        ArrayList<Fornecedor> fornecedores= new ArrayList<Fornecedor>();
+        for(i=0;i<jTableFornecedor.getModel().getRowCount(); i++){
+            if (!jTableFornecedor.getModel().getValueAt(i, 0).equals("") );//verifica se a celula esta vazia
                 //Objeto para ser adicionado ao arraylist
-                Produto produto = new Produto();
-                produto.setNome((String) jTableProdutos.getModel().getValueAt(i, 0));
-                produto.setCodProduto((int) jTableProdutos.getModel().getValueAt(i, 1));
-                produto.setTipo((String) jTableProdutos.getModel().getValueAt(i, 2));
-                produto.setMarca((String) jTableProdutos.getModel().getValueAt(i, 3));
-                produto.setFornecedor((String) jTableProdutos.getModel().getValueAt(i, 4));
-                produto.setPreco((float) jTableProdutos.getModel().getValueAt(i, 5));
-                produto.setQtd((int) jTableProdutos.getModel().getValueAt(i, 6));
+                Fornecedor fornecedor = new Fornecedor();
+                fornecedor.setNome((String) jTableFornecedor.getModel().getValueAt(i, 0));
+                fornecedor.setCnpj((String) jTableFornecedor.getModel().getValueAt(i, 1));
+                fornecedor.setEmail((String) jTableFornecedor.getModel().getValueAt(i, 2));
+                fornecedor.setTel((String) jTableFornecedor.getModel().getValueAt(i, 3));
                 //adiciona no arraylist
-                produtos.add(produto);
+                fornecedores.add(fornecedor);
         }
         try {
-            produtoDao.gravar(produtos, false);
+            fornecedorDao.gravar(fornecedores, false);
         } catch (IOException ex) {
-            Logger.getLogger(AtualizaProdutos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.dispose();
     }//GEN-LAST:event_jButtonSalvarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
@@ -161,13 +165,13 @@ public class AtualizaProdutos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AtualizaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AtualizaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AtualizaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AtualizaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -175,7 +179,7 @@ public class AtualizaProdutos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AtualizaProdutos().setVisible(true);
+                new GerenciaFornecedor().setVisible(true);
             }
         });
     }
@@ -183,7 +187,8 @@ public class AtualizaProdutos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableProdutos;
+    private javax.swing.JTable jTableFornecedor;
     // End of variables declaration//GEN-END:variables
 }

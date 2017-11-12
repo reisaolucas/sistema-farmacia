@@ -18,7 +18,7 @@ import model.Cliente;
  *
  * @author brunodepaulo
  */
-public class AtualizaCliente extends javax.swing.JFrame {
+public class GerenciaCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form ListaClientes
@@ -26,7 +26,7 @@ public class AtualizaCliente extends javax.swing.JFrame {
     
     ClienteDAO clienteDao = new ClienteDAO();
     
-    public AtualizaCliente() {
+    public GerenciaCliente() {
         initComponents();
         this.setVisible(true);
         ArrayList<Cliente> clientes = clienteDao.getClientes();
@@ -41,7 +41,7 @@ public class AtualizaCliente extends javax.swing.JFrame {
                 i++;            
         }   
         } catch (IOException ex) {
-            Logger.getLogger(AtualizaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -60,6 +60,7 @@ public class AtualizaCliente extends javax.swing.JFrame {
         jButtonSalvar = new javax.swing.JButton();
         jButtonDeletar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,33 +95,44 @@ public class AtualizaCliente extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setText("Gerenciamento de Clientes");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(155, 155, 155))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonDeletar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonSalvar)
                         .addGap(243, 243, 243)
-                        .addComponent(jButtonVoltar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(192, Short.MAX_VALUE))
+                        .addComponent(jButtonVoltar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar)
                     .addComponent(jButtonDeletar)
                     .addComponent(jButtonVoltar))
-                .addGap(27, 27, 27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,7 +157,7 @@ public class AtualizaCliente extends javax.swing.JFrame {
         try {
             clienteDao.gravar(clientes, false);
         } catch (IOException ex) {
-            Logger.getLogger(AtualizaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarMouseClicked
@@ -190,14 +202,18 @@ public class AtualizaCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AtualizaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AtualizaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AtualizaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AtualizaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -206,7 +222,7 @@ public class AtualizaCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AtualizaCliente().setVisible(true);
+                new GerenciaCliente().setVisible(true);
             }
         });
     }
@@ -215,6 +231,7 @@ public class AtualizaCliente extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDeletar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableClientes;
     // End of variables declaration//GEN-END:variables

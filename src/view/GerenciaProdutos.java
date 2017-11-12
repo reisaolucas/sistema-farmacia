@@ -5,41 +5,42 @@
  */
 package view;
 
-import controller.FornecedorDAO;
+import com.sun.org.glassfish.external.probe.provider.annotations.Probe;
+import controller.ProdutoDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.Fornecedor;
+import model.Produto;
 
 /**
  *
  * @author brunodepaulo
  */
-public class AtualizaFornecedor extends javax.swing.JFrame {
+public class GerenciaProdutos extends javax.swing.JFrame {
 
-    FornecedorDAO fornecedorDao = new FornecedorDAO();
+    ProdutoDAO produtoDao = new ProdutoDAO();
     /**
      * Creates new form AtualizaFornecedor
      */
-    public AtualizaFornecedor() {
+    public GerenciaProdutos() {
         initComponents();
         this.setVisible(true);
-        
-        ArrayList<Fornecedor> fornecedores = fornecedorDao.getFornecedores();
+        ArrayList<Produto> produtos = produtoDao.getProdutos();
         try {
-            fornecedorDao.read();
-            DefaultTableModel dtmFornecedores = (DefaultTableModel) jTableFornecedor.getModel();
+            produtoDao.read();
+            DefaultTableModel dtmProdutos = (DefaultTableModel) jTableProdutos.getModel();
             
             int i =0;
-            while(fornecedores.get(i)!=null){
-                Object[] dados = {fornecedores.get(i).getNome(), fornecedores.get(i).getCnpj(), fornecedores.get(i).getEmail(), fornecedores.get(i).getTel()};
-                dtmFornecedores.addRow(dados);
+            while(produtos.get(i)!=null){
+                Object[] dados = {produtos.get(i).getNome(), produtos.get(i).getCodProduto(), produtos.get(i).getTipo(), produtos.get(i).getMarca(), produtos.get(i).getFornecedor(), produtos.get(i).getPreco(), produtos.get(i).getQtd()};
+                dtmProdutos.addRow(dados);
                 i++;            
         }   
         } catch (IOException ex) {
-            Logger.getLogger(AtualizaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -53,21 +54,22 @@ public class AtualizaFornecedor extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableFornecedor = new javax.swing.JTable();
+        jTableProdutos = new javax.swing.JTable();
         jButtonSalvar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
+        jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "CNPJ", "Email", "Telefone", "Endereço"
+                "Nome", "Código", "Tipo", "Marca", "Fornecedor", "Preço", "Quantidade"
             }
         ));
-        jScrollPane1.setViewportView(jTableFornecedor);
+        jScrollPane1.setViewportView(jTableProdutos);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -83,30 +85,38 @@ public class AtualizaFornecedor extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setText("Gerenciamento de Produtos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonSalvar)
+                .addGap(56, 56, 56)
+                .addComponent(jButtonVoltar)
+                .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(144, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonSalvar)
-                        .addGap(80, 80, 80)
-                        .addComponent(jButtonVoltar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(115, 115, 115))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvar)
-                    .addComponent(jButtonVoltar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jButtonSalvar))
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -114,23 +124,25 @@ public class AtualizaFornecedor extends javax.swing.JFrame {
 
     private void jButtonSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSalvarMouseClicked
         int i;
-        
-        ArrayList<Fornecedor> fornecedores= new ArrayList<Fornecedor>();
-        for(i=0;i<jTableFornecedor.getModel().getRowCount(); i++){
-            if (!jTableFornecedor.getModel().getValueAt(i, 0).equals("") );//verifica se a celula esta vazia
+        ArrayList<Produto> produtos = new ArrayList<Produto>();
+        for(i=0;i<jTableProdutos.getModel().getRowCount(); i++){
+            if (!jTableProdutos.getModel().getValueAt(i, 0).equals("") );//verifica se a celula esta vazia
                 //Objeto para ser adicionado ao arraylist
-                Fornecedor fornecedor = new Fornecedor();
-                fornecedor.setNome((String) jTableFornecedor.getModel().getValueAt(i, 0));
-                fornecedor.setCnpj((String) jTableFornecedor.getModel().getValueAt(i, 1));
-                fornecedor.setEmail((String) jTableFornecedor.getModel().getValueAt(i, 2));
-                fornecedor.setTel((String) jTableFornecedor.getModel().getValueAt(i, 3));
+                Produto produto = new Produto();
+                produto.setNome((String) jTableProdutos.getModel().getValueAt(i, 0));
+                produto.setCodProduto((int) jTableProdutos.getModel().getValueAt(i, 1));
+                produto.setTipo((String) jTableProdutos.getModel().getValueAt(i, 2));
+                produto.setMarca((String) jTableProdutos.getModel().getValueAt(i, 3));
+                produto.setFornecedor((String) jTableProdutos.getModel().getValueAt(i, 4));
+                produto.setPreco((float) jTableProdutos.getModel().getValueAt(i, 5));
+                produto.setQtd((int) jTableProdutos.getModel().getValueAt(i, 6));
                 //adiciona no arraylist
-                fornecedores.add(fornecedor);
+                produtos.add(produto);
         }
         try {
-            fornecedorDao.gravar(fornecedores, false);
+            produtoDao.gravar(produtos, false);
         } catch (IOException ex) {
-            Logger.getLogger(AtualizaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerenciaProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarMouseClicked
@@ -157,20 +169,23 @@ public class AtualizaFornecedor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AtualizaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AtualizaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AtualizaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AtualizaFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AtualizaFornecedor().setVisible(true);
+                new GerenciaProdutos().setVisible(true);
             }
         });
     }
@@ -178,7 +193,8 @@ public class AtualizaFornecedor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableFornecedor;
+    private javax.swing.JTable jTableProdutos;
     // End of variables declaration//GEN-END:variables
 }

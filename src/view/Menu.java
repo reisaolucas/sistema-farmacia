@@ -180,7 +180,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuGerProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGerProdutosActionPerformed
         // TODO add your handling code here:
         try{
-            AtualizaProdutos atualizaProdutos = new AtualizaProdutos();
+            GerenciaProdutos atualizaProdutos = new GerenciaProdutos();
             atualizaProdutos.setVisible(true);
         }
         catch(Exception e){
@@ -190,7 +190,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuGerClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGerClientesActionPerformed
         // TODO add your handling code here:
         try{
-            AtualizaCliente atualizaCliente = new AtualizaCliente();
+            GerenciaCliente atualizaCliente = new GerenciaCliente();
             atualizaCliente.setVisible(true);
         }
         catch(Exception e){
@@ -200,7 +200,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuGerFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGerFornecedoresActionPerformed
         // TODO add your handling code here:
         try{
-            AtualizaFornecedor atualizaFornecedor = new AtualizaFornecedor();
+            GerenciaFornecedor atualizaFornecedor = new GerenciaFornecedor();
             atualizaFornecedor.setVisible(true);
         }
         catch(Exception e){
