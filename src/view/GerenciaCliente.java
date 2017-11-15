@@ -7,9 +7,11 @@ package view;
 
 import controller.ClienteDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
@@ -20,26 +22,24 @@ import model.Cliente;
  */
 public class GerenciaCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ListaClientes
-     */
     
-    ClienteDAO clienteDao = new ClienteDAO();
+    ClienteDAO clienteDao;
     
-    public GerenciaCliente() {
+    public GerenciaCliente() throws SQLException, ClassNotFoundException {
+        this.clienteDao = new ClienteDAO();
         initComponents();
         this.setVisible(true);
         ArrayList<Cliente> clientes = clienteDao.getClientes();
         try {
-            clienteDao.read();
+            clienteDao.readTxt();
             DefaultTableModel dtmClientes = (DefaultTableModel) jTableClientes.getModel();
             
             int i =0;
             while(clientes.get(i)!=null){
                 Object[] dados = {clientes.get(i).getNome(), clientes.get(i).getCpf(), clientes.get(i).getEmail(), clientes.get(i).getTel(), clientes.get(i).getEndereco()};
                 dtmClientes.addRow(dados);
-                i++;            
-        }   
+                i++;
+            }
         } catch (IOException ex) {
             Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -155,7 +155,7 @@ public class GerenciaCliente extends javax.swing.JFrame {
                 clientes.add(cliente);
         }
         try {
-            clienteDao.gravar(clientes, false);
+            clienteDao.gravarTxt(clientes, false);
         } catch (IOException ex) {
             Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -163,7 +163,7 @@ public class GerenciaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalvarMouseClicked
 
     private void jButtonDeletarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDeletarMouseClicked
-        clienteDao.delete();
+//      clienteDao.delete();
 //        try {
 //            clienteDao.read();
 //            DefaultTableModel dtmClientes = (DefaultTableModel) jTableClientes.getModel();
@@ -177,6 +177,9 @@ public class GerenciaCliente extends javax.swing.JFrame {
 //        } catch (IOException ex) {
 //            Logger.getLogger(AtualizaCliente.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        String searchCPF = JOptionPane.showInputDialog("Qual cpf deseja apagar?");
+
+        clienteDao.deletarBD(searchCPF);
         this.dispose();
     }//GEN-LAST:event_jButtonDeletarMouseClicked
 
@@ -222,7 +225,13 @@ public class GerenciaCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaCliente().setVisible(true);
+                try {
+                    new GerenciaCliente().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -1,1 +1,8 @@
 asfafaf,323,123113,baaas,1241
+lucas,097488,reisao,afonso,3826
+lucas,097488,reisao,afonso,3826
+lucas,097,reisao,afonso,3826
+lucas,097,reisao,afonso,3826
+,,,,
+lucas,097,,,
+Lucas,097,reisao,afonso,3826

@@ -6,23 +6,26 @@
 package controller;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 import model.Cliente;
-import view.GerenciaCliente;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author brunodepaulo
- */
 public class ClienteDAO {
    private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
    private File fileCliente = new File("clientes.txt");
    private File fileClienteBin = new File("clientesBin.obj");
    private ObjectOutputStream oos = CriaEscritorBinario(fileClienteBin, true);
    private ObjectInputStream ois = CriaLeitorBinario(fileClienteBin);
+   private Connection conexao = null;
+   private PreparedStatement pstdados = null;
    
    public void create(Cliente cliente) throws IOException{ //correto é colocar try-catch e a função ser void
        for(int i=0; i<getClientes().size(); i++){
@@ -31,10 +34,10 @@ public class ClienteDAO {
            }
        }
         getClientes().add(cliente);
-       gravar(getClientes(), true);
+       gravarTxt(getClientes(), true);
    }
    
-   public void read() throws FileNotFoundException, IOException{
+   public void readTxt() throws FileNotFoundException, IOException{
         FileReader leitor = new FileReader(fileCliente);
         BufferedReader leitorBuff = new BufferedReader(leitor);
         String line;
@@ -57,10 +60,7 @@ public class ClienteDAO {
                     ", Telefone: "+this.getClientes().get(i).getTel());
         }
    }
-   
-   public void update(Cliente cliente, String CPF){ //só recebe um novo objeto cliente, atualiza no array e grava
-             
-   }
+ 
    
    public Cliente escolheAtualizar(){
        this.clientes = leBinario(ois);
@@ -81,13 +81,13 @@ public class ClienteDAO {
             }    
         }
        try {
-           gravar(getClientes(), false);
+           gravarTxt(getClientes(), false);
        } catch (IOException ex) {
            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
        }
    }
    
-   public void gravar(ArrayList<Cliente> clientes, boolean append) throws IOException{
+   public void gravarTxt(ArrayList<Cliente> clientes, boolean append) throws IOException{
        FileWriter escritor = new FileWriter(fileCliente, append);
        BufferedWriter escritorBuff = new BufferedWriter(escritor);
        for(int i=0; i<clientes.size(); i++){ // caminha no array list
@@ -161,10 +161,188 @@ public class ClienteDAO {
        return false;
    }
 
-    /**
-     * @return the clientes
-     */
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
+    
+    
+    //--- Conexão com BD ---//
+    
+    public boolean acessaBD(){
+        try{
+            String usuario = "postgres";
+            String senha = "postgres";
+            
+            Class.forName("org.postgresql.Driver");
+            String urlconexao = "jdbc:postgresql://localhost:5433/bdfarmacia";
+            
+            conexao = DriverManager.getConnection(urlconexao, usuario, senha);
+            //connection.setAutoCommit(false);
+//            DatabaseMetaData dbmt = connection.getMetaData();
+//            System.out.println("Nome do BD: " + dbmt.getDatabaseProductName());
+//            System.out.println("Versao do BD: " + dbmt.getDatabaseProductVersion());
+//            System.out.println("URL: " + dbmt.getURL());
+//            System.out.println("Driver: " + dbmt.getDriverName());
+//            System.out.println("Versao Driver: " + dbmt.getDriverVersion());
+//            System.out.println("Usuario: " + dbmt.getUserName());
+            
+        } catch(ClassNotFoundException erro){
+            System.out.println("Falha ao carregar o driver JDBC/ODBC." + erro);
+            return false;            
+        } catch(SQLException erro){
+            System.out.println("Falha na conexao, comando sql = " + erro);
+            return false;
+        }
+        return true;
+    }
+
+    
+    public void inserirBD(Cliente cliente){
+        try {
+            
+            acessaBD();
+            
+            String sql = "INSERT INTO clientes (nome, cpf, endereco, tel, email) VALUES (?,?,?,?,?)";
+            int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
+            int concorrencia = ResultSet.CONCUR_UPDATABLE;
+            pstdados = conexao.prepareStatement(sql, tipo, concorrencia);   
+            
+            pstdados.setString(1, cliente.getNome());
+            pstdados.setString(2, cliente.getCpf());
+            pstdados.setString(3, cliente.getEndereco());
+            pstdados.setString(4, cliente.getTel());
+            pstdados.setString(5, cliente.getEmail());
+            
+            
+            int rowsInserted = pstdados.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Novo cliente foi inserido com sucesso.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deletarBD(String id){
+        try{
+            acessaBD();
+            
+            String sql = "DELETE FROM clientes WHERE cpf=?";
+            
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, id);
+            
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("O cliente foi deletado com sucesso.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Cliente lerBD(){
+        
+        acessaBD();
+                
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        int cont = 0;
+        String[][] stringArray = null;
+                
+        try{
+            pst = conexao.prepareStatement("SELECT * FROM clientes");
+            rs = pst.executeQuery();
+            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+            
+            while (rs.next()) {
+                String[] aux = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)};
+                Cliente cliente = new Cliente();
+                cliente.setNome(aux[0]);
+                cliente.setCpf(aux[1]);
+                cliente.setEndereco(aux[2]);
+                cliente.setTel(aux[3]);
+                cliente.setEmail(aux[4]);
+                clientes.add(cliente);
+                cont++;
+            }
+            
+            stringArray = clientes.toArray(new String[0][]);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+             try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conexao != null) {
+                    conexao.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return clientes;
+    }
+    
+    public void atualizarBD(String[] dado){
+        try {
+            acessaBD();
+            
+            String sql = "UPDATE clientes SET nome=?, cpf=?, endereco=?, tel=?, email=? WHERE id=?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, dado[0]);
+            statement.setString(2, dado[1]);
+            statement.setString(3, dado[2]);
+            statement.setString(4, dado[3]);
+            statement.setString(5, dado[4]);
+            statement.setInt(6, Integer.parseInt(dado[5]));
+            
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("An existing user was updated successfully!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+//    private final bdConnection conexao;
+//    
+//    public ClienteDAO() throws SQLException, ClassNotFoundException{
+//        this.conexao = new bdConnection();
+//    }
+    
+//    public void inserirBD(Cliente cliente){
+//        
+//        String sql = "INSERT INTO clientes (nome, cpf, endereco, tel, email) VALUES (?,?,?,?,?)";
+//
+//        try {
+//            PreparedStatement stmt = this.conexao.getConnection().prepareStatement(sql);
+//            conexao.getConnection();
+//            
+//            stmt.setString(1, cliente.getNome());
+//            stmt.setString(2, cliente.getCpf());
+//            stmt.setString(3, cliente.getEndereco());
+//            stmt.setString(4, cliente.getTel());
+//            stmt.setString(5, cliente.getEmail());
+//            
+//            //ResultSet rs = stmt.executeQuery();
+//            
+//            this.conexao.commit();
+//    
+//            int rowsInserted = stmt.executeUpdate();
+//            if (rowsInserted > 0) {
+//                System.out.println("Novo cliente foi inserido.");
+//            }
+//        } catch (SQLException ex) {
+//            this.conexao.rollback();
+//            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

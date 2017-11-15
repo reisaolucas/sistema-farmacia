@@ -7,6 +7,7 @@ package view;
 
 import controller.ClienteDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cliente;
@@ -147,13 +148,9 @@ public class CadastroCliente extends javax.swing.JFrame {
         cliente.setEmail(jTextFieldEmail.getText());
         cliente.setTel(jTextFieldTel.getText());
         cliente.setEndereco(jTextFieldEndereco.getText());
+        
         ClienteDAO clienteDAO = new ClienteDAO();
-        try {
-            clienteDAO.create(cliente);
-            clienteDAO.read();
-        } catch (IOException ex) {
-            System.out.println("DEURUIM");
-        }
+        clienteDAO.inserirBD(cliente);
     }//GEN-LAST:event_jButtonCadastrarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
