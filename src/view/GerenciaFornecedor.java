@@ -7,6 +7,7 @@ package view;
 
 import controller.FornecedorDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,27 +21,21 @@ import model.Fornecedor;
  */
 public class GerenciaFornecedor extends javax.swing.JFrame {
 
-    FornecedorDAO fornecedorDao = new FornecedorDAO();
-    /**
-     * Creates new form AtualizaFornecedor
-     */
-    public GerenciaFornecedor() {
+    
+    FornecedorDAO fornecedorDao;
+    
+    public GerenciaFornecedor() throws SQLException, ClassNotFoundException{
+        this.fornecedorDao = new FornecedorDAO();
         initComponents();
         this.setVisible(true);
+        ArrayList<Fornecedor> fornecedores = fornecedorDao.lerBD();
         
-        ArrayList<Fornecedor> fornecedores = fornecedorDao.getFornecedores();
-        try {
-            fornecedorDao.read();
-            DefaultTableModel dtmFornecedores = (DefaultTableModel) jTableFornecedor.getModel();
-            
-            int i =0;
-            while(fornecedores.get(i)!=null){
-                Object[] dados = {fornecedores.get(i).getNome(), fornecedores.get(i).getCnpj(), fornecedores.get(i).getEmail(), fornecedores.get(i).getTel()};
-                dtmFornecedores.addRow(dados);
-                i++;            
-        }   
-        } catch (IOException ex) {
-            Logger.getLogger(GerenciaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+        DefaultTableModel dtmFornecedores = (DefaultTableModel) jTableFornecedor.getModel();
+        int i =0;
+        while(fornecedores.get(i)!=null){
+            Object[] dados = {fornecedores.get(i).getNome(), fornecedores.get(i).getCnpj(), fornecedores.get(i).getEmail(), fornecedores.get(i).getTel()};
+            dtmFornecedores.addRow(dados);
+            i++;
         }
     }
 
@@ -67,7 +62,7 @@ public class GerenciaFornecedor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "CNPJ", "Email", "Telefone", "Endereço"
+                "Nome", "CNPJ", "Email", "Telefone"
             }
         ));
         jScrollPane1.setViewportView(jTableFornecedor);
@@ -198,7 +193,13 @@ public class GerenciaFornecedor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaFornecedor().setVisible(true);
+                try {
+                    new GerenciaFornecedor().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GerenciaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(GerenciaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -29,20 +29,14 @@ public class GerenciaCliente extends javax.swing.JFrame {
         this.clienteDao = new ClienteDAO();
         initComponents();
         this.setVisible(true);
-        ArrayList<Cliente> clientes = clienteDao.getClientes();
+        ArrayList<Cliente> clientes = clienteDao.lerBD();
         
-        try {
-            clienteDao.readTxt();
-            DefaultTableModel dtmClientes = (DefaultTableModel) jTableClientes.getModel();
-            
-            int i =0;
-            while(clientes.get(i)!=null){
-                Object[] dados = {clientes.get(i).getNome(), clientes.get(i).getCpf(), clientes.get(i).getEmail(), clientes.get(i).getTel(), clientes.get(i).getEndereco()};
-                dtmClientes.addRow(dados);
-                i++;
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        DefaultTableModel dtmClientes = (DefaultTableModel) jTableClientes.getModel();
+        int i =0;
+        while(clientes.get(i)!=null){
+            Object[] dados = {clientes.get(i).getNome(), clientes.get(i).getCpf(), clientes.get(i).getEmail(), clientes.get(i).getTel(), clientes.get(i).getEndereco()};
+            dtmClientes.addRow(dados);
+            i++;
         }
 
     }

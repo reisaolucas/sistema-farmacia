@@ -233,53 +233,51 @@ public class ClienteDAO {
         }
     }
     
-//    public ArrayList<Cliente> lerBD(){
-//        
-//        bdConnect();
-//                
-//        PreparedStatement pst = null;
-//        ResultSet rs = null;
-//        int cont = 0;
-//        String[][] stringArray = null;
-//                
-//        try{
-//            pst = conexao.prepareStatement("SELECT * FROM clientes");
-//            rs = pst.executeQuery();
-//            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-//            
-//            while (rs.next()) {
-//                String[] aux = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)};
-//                Cliente cliente = new Cliente();
-//                cliente.setNome(aux[0]);
-//                cliente.setCpf(aux[1]);
-//                cliente.setEndereco(aux[2]);
-//                cliente.setTel(aux[3]);
-//                cliente.setEmail(aux[4]);
-//                clientes.add(cliente);
-//                cont++;
-//            }
-//            
-//           
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//             try {
-//                if (rs != null) {
-//                    rs.close();
-//                }
-//                if (pst != null) {
-//                    pst.close();
-//                }
-//                if (conexao != null) {
-//                    conexao.close();
-//                }
-//
-//            } catch (SQLException ex) {
-//                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        return clientes;
-//    }
+    public ArrayList<Cliente> lerBD(){
+        
+        bdConnect();
+                
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        int cont = 0;
+        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+                
+        try{
+            pst = conexao.prepareStatement("SELECT * FROM clientes");
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setNome(rs.getString(1));
+                cliente.setCpf(rs.getString(2));
+                cliente.setEndereco(rs.getString(3));
+                cliente.setTel(rs.getString(4));
+                cliente.setEmail(rs.getString(5));
+                clientes.add(cliente);
+                cont++;
+            }
+                        
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+             try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conexao != null) {
+                    conexao.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return clientes;
+    }
+
     
     public void atualizarBD(String[] dado){
         try {

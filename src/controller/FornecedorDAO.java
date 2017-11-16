@@ -244,4 +244,48 @@ public class FornecedorDAO {
             Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public ArrayList<Fornecedor> lerBD(){
+        
+        bdConnect();
+                
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        int cont = 0;
+        ArrayList<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
+                
+        try{
+            pst = conexao.prepareStatement("SELECT * FROM fornecedores");
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                Fornecedor fornecedor = new Fornecedor();
+                fornecedor.setNome(rs.getString(1));
+                fornecedor.setCnpj(rs.getString(2));
+                fornecedor.setTel(rs.getString(3));
+                fornecedor.setEmail(rs.getString(4));
+                fornecedores.add(fornecedor);
+                cont++;
+            }
+                        
+        } catch (SQLException ex) {
+            Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+             try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conexao != null) {
+                    conexao.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return fornecedores;
+    }
 }

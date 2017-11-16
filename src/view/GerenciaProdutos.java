@@ -29,19 +29,13 @@ public class GerenciaProdutos extends javax.swing.JFrame {
     public GerenciaProdutos() {
         initComponents();
         this.setVisible(true);
-        ArrayList<Produto> produtos = produtoDao.getProdutos();
-        try {
-            produtoDao.read();
-            DefaultTableModel dtmProdutos = (DefaultTableModel) jTableProdutos.getModel();
-            
-            int i =0;
-            while(produtos.get(i)!=null){
-                Object[] dados = {produtos.get(i).getNome(), produtos.get(i).getCodProduto(), produtos.get(i).getTipo(), produtos.get(i).getMarca(), produtos.get(i).getFornecedor(), produtos.get(i).getPreco(), produtos.get(i).getQtd()};
-                dtmProdutos.addRow(dados);
-                i++;            
-        }   
-        } catch (IOException ex) {
-            Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        ArrayList<Produto> produtos = produtoDao.lerBD();
+        DefaultTableModel dtmProdutos = (DefaultTableModel) jTableProdutos.getModel();
+        int i =0;
+        while(produtos.get(i)!=null){
+            Object[] dados = {produtos.get(i).getNome(), produtos.get(i).getCodProduto(), produtos.get(i).getTipo(), produtos.get(i).getMarca(), produtos.get(i).getFornecedor(), produtos.get(i).getPreco(), produtos.get(i).getQtd()};
+            dtmProdutos.addRow(dados);
+            i++;
         }
     }
 

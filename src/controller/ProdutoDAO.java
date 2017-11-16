@@ -235,4 +235,51 @@ public class ProdutoDAO {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public ArrayList<Produto> lerBD(){
+        
+        bdConnect();
+                
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        int cont = 0;
+        ArrayList<Produto> produtos = new ArrayList<Produto>();
+                
+        try{
+            pst = conexao.prepareStatement("SELECT * FROM produtos");
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                Produto produto = new Produto();
+                produto.setCodProduto(rs.getInt(1));
+                produto.setNome(rs.getString(2));
+                produto.setPreco(rs.getFloat(3));
+                produto.setMarca(rs.getString(4));
+                produto.setFornecedor(rs.getString(5));
+                produto.setTipo(rs.getString(6));
+                produto.setQtd(rs.getInt(7));
+                produtos.add(produto);
+                cont++;
+            }
+                        
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+             try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conexao != null) {
+                    conexao.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return produtos;
+    }
 }
