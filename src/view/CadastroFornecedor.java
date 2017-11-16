@@ -134,13 +134,11 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         fornecedor.setEmail(jTextFieldEmail.getText());
         fornecedor.setNome(jTextFieldNome.getText());
         fornecedor.setTel(jTextFieldTel.getText());
+        
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        try {
-            fornecedorDAO.create(fornecedor);
-            fornecedorDAO.read();
-        } catch (IOException ex) {
-            System.out.println("DEURUIM");
-        }
+
+        fornecedorDAO.inserirBD(fornecedor);
+
     }//GEN-LAST:event_jButtonCadastrarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed

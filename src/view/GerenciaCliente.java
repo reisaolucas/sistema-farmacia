@@ -30,6 +30,7 @@ public class GerenciaCliente extends javax.swing.JFrame {
         initComponents();
         this.setVisible(true);
         ArrayList<Cliente> clientes = clienteDao.getClientes();
+        
         try {
             clienteDao.readTxt();
             DefaultTableModel dtmClientes = (DefaultTableModel) jTableClientes.getModel();
@@ -177,7 +178,7 @@ public class GerenciaCliente extends javax.swing.JFrame {
 //        } catch (IOException ex) {
 //            Logger.getLogger(AtualizaCliente.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        String searchCPF = JOptionPane.showInputDialog("Qual cpf deseja apagar?");
+        String searchCPF = JOptionPane.showInputDialog("Digite o CPF do cliente que deseja apagar:");
 
         clienteDao.deletarBD(searchCPF);
         this.dispose();

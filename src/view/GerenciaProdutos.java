@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Fornecedor;
 import model.Produto;
@@ -58,6 +59,7 @@ public class GerenciaProdutos extends javax.swing.JFrame {
         jButtonSalvar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButtonDeletar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,12 +90,21 @@ public class GerenciaProdutos extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setText("Gerenciamento de Produtos");
 
+        jButtonDeletar.setText("Deletar");
+        jButtonDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeletarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonDeletar)
+                .addGap(60, 60, 60)
                 .addComponent(jButtonSalvar)
                 .addGap(56, 56, 56)
                 .addComponent(jButtonVoltar)
@@ -115,7 +126,8 @@ public class GerenciaProdutos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonVoltar)
-                    .addComponent(jButtonSalvar))
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jButtonDeletar))
                 .addGap(17, 17, 17))
         );
 
@@ -151,6 +163,14 @@ public class GerenciaProdutos extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
+
+    private void jButtonDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletarActionPerformed
+        // TODO add your handling code here:
+        String searchCod = JOptionPane.showInputDialog("Digite o código do produto que deseja apagar:");
+
+        produtoDao.deletarBD(searchCod);
+        this.dispose();
+    }//GEN-LAST:event_jButtonDeletarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,6 +211,7 @@ public class GerenciaProdutos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDeletar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JLabel jLabel1;

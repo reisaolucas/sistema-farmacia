@@ -137,7 +137,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                     .addComponent(jLabelPreco)
                     .addComponent(jTextFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonCadastrar)
                     .addComponent(jButtonVoltar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -154,13 +154,9 @@ public class CadastroProduto extends javax.swing.JFrame {
         produto.setNome(jTextFieldNome.getText());
         produto.setPreco(Float.parseFloat(jTextFieldPreco.getText()));
         produto.setTipo(jTextFieldTipo.getText());
+        
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        try {
-            produtoDAO.create(produto);
-            produtoDAO.read();
-        } catch (IOException ex) {
-            System.out.println("DEURUIM");
-        }
+        produtoDAO.inserirBD(produto);
     }//GEN-LAST:event_jButtonCadastrarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed

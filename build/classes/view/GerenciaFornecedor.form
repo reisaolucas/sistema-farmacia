@@ -25,6 +25,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="jButtonDeletar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Component id="jButtonSalvar" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Component id="jButtonVoltar" min="-2" max="-2" attributes="0"/>
@@ -51,6 +53,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonDeletar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -134,6 +137,14 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Gerenciamento de Fornecedores"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonDeletar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Deletar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeletarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

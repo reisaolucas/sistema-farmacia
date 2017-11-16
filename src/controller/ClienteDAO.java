@@ -168,7 +168,7 @@ public class ClienteDAO {
     
     //--- Conexão com BD ---//
     
-    public boolean acessaBD(){
+    public boolean bdConnect(){
         try{
             String usuario = "postgres";
             String senha = "postgres";
@@ -177,20 +177,12 @@ public class ClienteDAO {
             String urlconexao = "jdbc:postgresql://localhost:5433/bdfarmacia";
             
             conexao = DriverManager.getConnection(urlconexao, usuario, senha);
-            //connection.setAutoCommit(false);
-//            DatabaseMetaData dbmt = connection.getMetaData();
-//            System.out.println("Nome do BD: " + dbmt.getDatabaseProductName());
-//            System.out.println("Versao do BD: " + dbmt.getDatabaseProductVersion());
-//            System.out.println("URL: " + dbmt.getURL());
-//            System.out.println("Driver: " + dbmt.getDriverName());
-//            System.out.println("Versao Driver: " + dbmt.getDriverVersion());
-//            System.out.println("Usuario: " + dbmt.getUserName());
-            
+
         } catch(ClassNotFoundException erro){
-            System.out.println("Falha ao carregar o driver JDBC/ODBC." + erro);
+            System.out.println("Erro no carregamento do driver " + erro);
             return false;            
         } catch(SQLException erro){
-            System.out.println("Falha na conexao, comando sql = " + erro);
+            System.out.println("Erro no SQL " + erro);
             return false;
         }
         return true;
@@ -200,7 +192,7 @@ public class ClienteDAO {
     public void inserirBD(Cliente cliente){
         try {
             
-            acessaBD();
+            bdConnect();
             
             String sql = "INSERT INTO clientes (nome, cpf, endereco, tel, email) VALUES (?,?,?,?,?)";
             int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
@@ -225,7 +217,7 @@ public class ClienteDAO {
     
     public void deletarBD(String id){
         try{
-            acessaBD();
+            bdConnect();
             
             String sql = "DELETE FROM clientes WHERE cpf=?";
             
@@ -241,58 +233,57 @@ public class ClienteDAO {
         }
     }
     
-    public Cliente lerBD(){
-        
-        acessaBD();
-                
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-        int cont = 0;
-        String[][] stringArray = null;
-                
-        try{
-            pst = conexao.prepareStatement("SELECT * FROM clientes");
-            rs = pst.executeQuery();
-            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-            
-            while (rs.next()) {
-                String[] aux = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)};
-                Cliente cliente = new Cliente();
-                cliente.setNome(aux[0]);
-                cliente.setCpf(aux[1]);
-                cliente.setEndereco(aux[2]);
-                cliente.setTel(aux[3]);
-                cliente.setEmail(aux[4]);
-                clientes.add(cliente);
-                cont++;
-            }
-            
-            stringArray = clientes.toArray(new String[0][]);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-             try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pst != null) {
-                    pst.close();
-                }
-                if (conexao != null) {
-                    conexao.close();
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return clientes;
-    }
+//    public ArrayList<Cliente> lerBD(){
+//        
+//        bdConnect();
+//                
+//        PreparedStatement pst = null;
+//        ResultSet rs = null;
+//        int cont = 0;
+//        String[][] stringArray = null;
+//                
+//        try{
+//            pst = conexao.prepareStatement("SELECT * FROM clientes");
+//            rs = pst.executeQuery();
+//            ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+//            
+//            while (rs.next()) {
+//                String[] aux = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)};
+//                Cliente cliente = new Cliente();
+//                cliente.setNome(aux[0]);
+//                cliente.setCpf(aux[1]);
+//                cliente.setEndereco(aux[2]);
+//                cliente.setTel(aux[3]);
+//                cliente.setEmail(aux[4]);
+//                clientes.add(cliente);
+//                cont++;
+//            }
+//            
+//           
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//             try {
+//                if (rs != null) {
+//                    rs.close();
+//                }
+//                if (pst != null) {
+//                    pst.close();
+//                }
+//                if (conexao != null) {
+//                    conexao.close();
+//                }
+//
+//            } catch (SQLException ex) {
+//                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//        return clientes;
+//    }
     
     public void atualizarBD(String[] dado){
         try {
-            acessaBD();
+            bdConnect();
             
             String sql = "UPDATE clientes SET nome=?, cpf=?, endereco=?, tel=?, email=? WHERE id=?";
             PreparedStatement statement = conexao.prepareStatement(sql);
@@ -311,38 +302,4 @@ public class ClienteDAO {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-//    private final bdConnection conexao;
-//    
-//    public ClienteDAO() throws SQLException, ClassNotFoundException{
-//        this.conexao = new bdConnection();
-//    }
-    
-//    public void inserirBD(Cliente cliente){
-//        
-//        String sql = "INSERT INTO clientes (nome, cpf, endereco, tel, email) VALUES (?,?,?,?,?)";
-//
-//        try {
-//            PreparedStatement stmt = this.conexao.getConnection().prepareStatement(sql);
-//            conexao.getConnection();
-//            
-//            stmt.setString(1, cliente.getNome());
-//            stmt.setString(2, cliente.getCpf());
-//            stmt.setString(3, cliente.getEndereco());
-//            stmt.setString(4, cliente.getTel());
-//            stmt.setString(5, cliente.getEmail());
-//            
-//            //ResultSet rs = stmt.executeQuery();
-//            
-//            this.conexao.commit();
-//    
-//            int rowsInserted = stmt.executeUpdate();
-//            if (rowsInserted > 0) {
-//                System.out.println("Novo cliente foi inserido.");
-//            }
-//        } catch (SQLException ex) {
-//            this.conexao.rollback();
-//            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }

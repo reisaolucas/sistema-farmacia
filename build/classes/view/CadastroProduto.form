@@ -90,9 +90,9 @@
                   <Component id="jTextFieldPreco" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jButtonCadastrar" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonVoltar" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>

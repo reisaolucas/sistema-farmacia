@@ -6,10 +6,16 @@
 package controller;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.Cliente;
 import model.Fornecedor;
 
 /**
@@ -22,6 +28,8 @@ public class FornecedorDAO {
    private File fileFornecedorBin = new File("fornecedorBin.obj");
    private ObjectOutputStream oos = CriaEscritorBinario(fileFornecedorBin, true);
    private ObjectInputStream ois = CriaLeitorBinario(fileFornecedorBin);
+   private Connection conexao = null;
+   private PreparedStatement pstdados = null;
    
    public void create(Fornecedor fornecedor) throws IOException{ //correto é colocar try-catch e a função ser void
        for(int i=0; i<getFornecedores().size(); i++){
@@ -169,5 +177,71 @@ public class FornecedorDAO {
      */
     public ArrayList<Fornecedor> getFornecedores() {
         return fornecedores;
+    }
+    
+        //--- Conexão com BD ---//
+    
+    public boolean bdConnect(){
+        try{
+            String usuario = "postgres";
+            String senha = "postgres";
+            
+            Class.forName("org.postgresql.Driver");
+            String urlconexao = "jdbc:postgresql://localhost:5433/bdfarmacia";
+            
+            conexao = DriverManager.getConnection(urlconexao, usuario, senha);
+
+        } catch(ClassNotFoundException erro){
+            System.out.println("Erro no carregamento do driver " + erro);
+            return false;            
+        } catch(SQLException erro){
+            System.out.println("Erro no SQL " + erro);
+            return false;
+        }
+        return true;
+    }
+
+    
+    public void inserirBD(Fornecedor fornecedor){
+        try {
+            
+            bdConnect();
+            
+            String sql = "INSERT INTO fornecedores (nome, cnpj, tel, email) VALUES (?,?,?,?)";
+            int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
+            int concorrencia = ResultSet.CONCUR_UPDATABLE;
+            pstdados = conexao.prepareStatement(sql, tipo, concorrencia);   
+            
+            pstdados.setString(1, fornecedor.getNome());
+            pstdados.setString(2, fornecedor.getCnpj());
+            pstdados.setString(3, fornecedor.getTel());
+            pstdados.setString(4, fornecedor.getEmail());
+            
+            
+            int rowsInserted = pstdados.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Novo fornecedor foi inserido com sucesso.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deletarBD(String id){
+        try{
+            bdConnect();
+            
+            String sql = "DELETE FROM fornecedores WHERE cnpj=?";
+            
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, id);
+            
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("O fornecedor foi deletado com sucesso.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
