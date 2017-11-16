@@ -138,6 +138,7 @@ public class CadastroFornecedor extends javax.swing.JFrame {
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
         fornecedorDAO.inserirBD(fornecedor);
+        this.dispose();
 
     }//GEN-LAST:event_jButtonCadastrarMouseClicked
 

@@ -282,4 +282,28 @@ public class ProdutoDAO {
         }
         return produtos;
     }
+        public void atualizarBD(Produto produto){
+        try {
+            bdConnect();
+            
+            String sql = "UPDATE produtos SET codproduto=?, nome=?, preco=?, marca=?, fornecedor=?, tipo=?, qtd=? WHERE codproduto=?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setInt(1, produto.getCodProduto());
+            statement.setString(2, produto.getNome());
+            statement.setFloat(3, produto.getPreco());
+            statement.setString(4, produto.getMarca());
+            statement.setString(5, produto.getFornecedor());
+            statement.setString(6, produto.getTipo());
+            statement.setInt(7, produto.getQtd());
+            statement.setInt(8, produto.getCodProduto());
+            
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("O produto foi atualizado com sucesso");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

@@ -157,6 +157,7 @@ public class CadastroProduto extends javax.swing.JFrame {
         
         ProdutoDAO produtoDAO = new ProdutoDAO();
         produtoDAO.inserirBD(produto);
+        this.dispose();
     }//GEN-LAST:event_jButtonCadastrarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed

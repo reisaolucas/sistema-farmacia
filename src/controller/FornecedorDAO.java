@@ -288,4 +288,25 @@ public class FornecedorDAO {
         }
         return fornecedores;
     }
+    
+    public void atualizarBD(Fornecedor fornecedor){
+        try {
+            bdConnect();
+            
+            String sql = "UPDATE fornecedores SET nome=?, cnpj=?, tel=?, email=? WHERE cnpj=?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, fornecedor.getNome());
+            statement.setString(2, fornecedor.getCnpj());
+            statement.setString(3, fornecedor.getTel());
+            statement.setString(4, fornecedor.getEmail());
+            statement.setString(5, fornecedor.getCnpj());
+            
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("O fornecedor foi atualizado com sucesso!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

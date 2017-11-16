@@ -151,6 +151,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         
         ClienteDAO clienteDAO = new ClienteDAO();
         clienteDAO.inserirBD(cliente);
+        this.dispose();
     }//GEN-LAST:event_jButtonCadastrarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed

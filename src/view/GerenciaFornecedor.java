@@ -141,11 +141,7 @@ public class GerenciaFornecedor extends javax.swing.JFrame {
                 fornecedor.setTel((String) jTableFornecedor.getModel().getValueAt(i, 3));
                 //adiciona no arraylist
                 fornecedores.add(fornecedor);
-        }
-        try {
-            fornecedorDao.gravar(fornecedores, false);
-        } catch (IOException ex) {
-            Logger.getLogger(GerenciaFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+                fornecedorDao.atualizarBD(fornecedor);
         }
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarMouseClicked

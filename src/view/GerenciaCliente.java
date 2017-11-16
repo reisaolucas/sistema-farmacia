@@ -146,13 +146,10 @@ public class GerenciaCliente extends javax.swing.JFrame {
                 cliente.setTel((String) jTableClientes.getModel().getValueAt(i, 3));
                 cliente.setEndereco((String) jTableClientes.getModel().getValueAt(i, 4));
                 
+                
                 //adiciona no arraylist
                 clientes.add(cliente);
-        }
-        try {
-            clienteDao.gravarTxt(clientes, false);
-        } catch (IOException ex) {
-            Logger.getLogger(GerenciaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                clienteDao.atualizarBD(cliente);
         }
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarMouseClicked

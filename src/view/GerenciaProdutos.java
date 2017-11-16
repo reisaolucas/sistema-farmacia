@@ -144,11 +144,7 @@ public class GerenciaProdutos extends javax.swing.JFrame {
                 produto.setQtd((int) jTableProdutos.getModel().getValueAt(i, 6));
                 //adiciona no arraylist
                 produtos.add(produto);
-        }
-        try {
-            produtoDao.gravar(produtos, false);
-        } catch (IOException ex) {
-            Logger.getLogger(GerenciaProdutos.class.getName()).log(Level.SEVERE, null, ex);
+                produtoDao.atualizarBD(produto);
         }
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarMouseClicked

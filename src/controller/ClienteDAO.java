@@ -279,22 +279,22 @@ public class ClienteDAO {
     }
 
     
-    public void atualizarBD(String[] dado){
+    public void atualizarBD(Cliente cliente){
         try {
             bdConnect();
             
-            String sql = "UPDATE clientes SET nome=?, cpf=?, endereco=?, tel=?, email=? WHERE id=?";
+            String sql = "UPDATE clientes SET nome=?, cpf=?, endereco=?, tel=?, email=? WHERE cpf=?";
             PreparedStatement statement = conexao.prepareStatement(sql);
-            statement.setString(1, dado[0]);
-            statement.setString(2, dado[1]);
-            statement.setString(3, dado[2]);
-            statement.setString(4, dado[3]);
-            statement.setString(5, dado[4]);
-            statement.setInt(6, Integer.parseInt(dado[5]));
+            statement.setString(1, cliente.getNome());
+            statement.setString(2, cliente.getCpf());
+            statement.setString(3, cliente.getEndereco());
+            statement.setString(4, cliente.getTel());
+            statement.setString(5, cliente.getEmail());
+            statement.setString(6, cliente.getCpf());
             
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("An existing user was updated successfully!");
+                System.out.println("O cliente foi atualizado com sucesso");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
