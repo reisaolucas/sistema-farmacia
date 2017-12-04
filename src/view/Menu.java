@@ -44,6 +44,10 @@ public class Menu extends javax.swing.JFrame {
         jMenuGerProdutos = new javax.swing.JMenuItem();
         jMenuGerClientes = new javax.swing.JMenuItem();
         jMenuGerFornecedores = new javax.swing.JMenuItem();
+        jMenuGerenciar1 = new javax.swing.JMenu();
+        jMenuReportProdutos = new javax.swing.JMenuItem();
+        jMenuReportClientes = new javax.swing.JMenuItem();
+        jMenuReportFornecedores = new javax.swing.JMenuItem();
         jMenuAjuda = new javax.swing.JMenu();
         jMenuSair = new javax.swing.JMenu();
 
@@ -115,6 +119,34 @@ public class Menu extends javax.swing.JFrame {
         jMenuGerenciar.add(jMenuGerFornecedores);
 
         jMenuBar1.add(jMenuGerenciar);
+
+        jMenuGerenciar1.setText("Relatórios");
+
+        jMenuReportProdutos.setText("Produtos");
+        jMenuReportProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuReportProdutosActionPerformed(evt);
+            }
+        });
+        jMenuGerenciar1.add(jMenuReportProdutos);
+
+        jMenuReportClientes.setText("Clientes");
+        jMenuReportClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuReportClientesActionPerformed(evt);
+            }
+        });
+        jMenuGerenciar1.add(jMenuReportClientes);
+
+        jMenuReportFornecedores.setText("Fornecedores");
+        jMenuReportFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuReportFornecedoresActionPerformed(evt);
+            }
+        });
+        jMenuGerenciar1.add(jMenuReportFornecedores);
+
+        jMenuBar1.add(jMenuGerenciar1);
 
         jMenuAjuda.setText("Ajuda");
         jMenuBar1.add(jMenuAjuda);
@@ -236,6 +268,36 @@ public class Menu extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuSairMouseClicked
 
+    private void jMenuReportProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuReportProdutosActionPerformed
+        // TODO add your handling code here:
+        try{
+            GeraReportProduto reportProduto = new GeraReportProduto();
+            reportProduto.setVisible(true);
+        }
+        catch(Exception e){
+        }
+    }//GEN-LAST:event_jMenuReportProdutosActionPerformed
+
+    private void jMenuReportClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuReportClientesActionPerformed
+        // TODO add your handling code here:
+        try{
+            GeraReportCliente reportCliente = new GeraReportCliente();
+            reportCliente.setVisible(true);
+        }
+        catch(Exception e){
+        }
+    }//GEN-LAST:event_jMenuReportClientesActionPerformed
+
+    private void jMenuReportFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuReportFornecedoresActionPerformed
+        // TODO add your handling code here:
+        try{
+            GeraReportFornecedor reportFornecedor = new GeraReportFornecedor();
+            reportFornecedor.setVisible(true);
+        }
+        catch(Exception e){
+        }
+    }//GEN-LAST:event_jMenuReportFornecedoresActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -286,6 +348,10 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuGerFornecedores;
     private javax.swing.JMenuItem jMenuGerProdutos;
     private javax.swing.JMenu jMenuGerenciar;
+    private javax.swing.JMenu jMenuGerenciar1;
+    private javax.swing.JMenuItem jMenuReportClientes;
+    private javax.swing.JMenuItem jMenuReportFornecedores;
+    private javax.swing.JMenuItem jMenuReportProdutos;
     private javax.swing.JMenu jMenuSair;
     // End of variables declaration//GEN-END:variables
 }
